@@ -7,5 +7,3 @@ layout: default
 - 数据分析相关的学习项目
 - 数据分析方向的个人博客
 ## [my blog page 1](my-page-1).
-
-contact:<sxusky@gmail.com>
