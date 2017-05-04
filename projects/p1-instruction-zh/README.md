@@ -18,11 +18,14 @@
 
 **2**. 此任务的适当假设集是什么？你想执行什么类型的统计测试？为你的选择提供正当理由。
 
-假设每个人都是认真参与该任务，并且对颜色的识别无误；
+零假设 Ho:μ=μ0,**一致文字条件**和**不一致文字条件**说出文字墨色名称所花费的时间**相同**。
 
-我想针对不同年龄段的人做随机统计测试；
+对立假设 H1:μ1≠μ2,**一致文字条件**比**不一致文字条件**说出文字墨色名称所花费的时间**不相同**。
 
-大脑的反应速度跟年龄、IQ有一定的关系。
+使用T检验，因为样本含量为24；使用**相依样本**检验，因为是在同一个人的两种不同条件下的样本。
+选择**双尾检验**，以及统计显著性水平alpha0.05，要比较两种情况下，要检查**不一致文字条件**比**一致文字条件**的时间相同还是不相同。
+
+前提要求: 总体的分布应该是正态分布的；另外，参与者能够正常的识别颜色，而且如实的参与测试。
 
 现在轮到你自行尝试 Stroop 任务了。前往此链接，其中包含一个基于 Java 的小程序，专门用于执行 Stroop 任务。记录你收到的任务时间（你无需将时间提交到网站）。现在下载此数据集，其中包含一些任务参与者的结果。数据集的每行包含一名参与者的表现，第一个数字代表他们的一致任务结果，第二个数字代表不一致任务结果。
 
@@ -30,6 +33,7 @@
 
 
 ```python
+%matplotlib inline
 # 导入所有需要的函数
 import csv
 from datetime import datetime
@@ -38,7 +42,6 @@ import pandas as pd
 # visualizations module from babs :)
 from visualizations import show_max_min, usage_plot 
 from IPython.display import display
-%matplotlib inline
 ```
 
 
@@ -55,6 +58,7 @@ display(sample_data.head())
       <th></th>
       <th>Congruent</th>
       <th>Incongruent</th>
+      <th>Incongruent-Congruent</th>
     </tr>
   </thead>
   <tbody>
@@ -62,26 +66,31 @@ display(sample_data.head())
       <th>0</th>
       <td>8.630</td>
       <td>15.687</td>
+      <td>7.057</td>
     </tr>
     <tr>
       <th>1</th>
       <td>8.987</td>
       <td>17.394</td>
+      <td>8.407</td>
     </tr>
     <tr>
       <th>2</th>
       <td>9.401</td>
       <td>20.762</td>
+      <td>11.361</td>
     </tr>
     <tr>
       <th>3</th>
       <td>9.564</td>
       <td>21.214</td>
+      <td>11.650</td>
     </tr>
     <tr>
       <th>4</th>
       <td>10.639</td>
       <td>20.429</td>
+      <td>9.790</td>
     </tr>
   </tbody>
 </table>
@@ -95,11 +104,12 @@ sample_data.info()
 
     <class 'pandas.core.frame.DataFrame'>
     RangeIndex: 24 entries, 0 to 23
-    Data columns (total 2 columns):
-    Congruent      24 non-null float64
-    Incongruent    24 non-null float64
-    dtypes: float64(2)
-    memory usage: 456.0 bytes
+    Data columns (total 3 columns):
+    Congruent                24 non-null float64
+    Incongruent              24 non-null float64
+    Incongruent-Congruent    24 non-null float64
+    dtypes: float64(3)
+    memory usage: 648.0 bytes
     
 
 
@@ -122,12 +132,24 @@ usage_plot(sample_data, 'Incongruent', boundary = 10, bin_width = 2)
 
 
 ```python
+# D = Incongruent - Congruent
+usage_plot(sample_data, 'Incongruent-Congruent', boundary = 1, bin_width = 1)
+```
+
+
+![png](output_6_0.png)
+
+
+
+```python
 show_max_min(sample_data, 'Congruent')
 show_max_min(sample_data, 'Incongruent')
+show_max_min(sample_data, 'Incongruent-Congruent')
 ```
 
     data:Congruent max:22.328, min:8.63
     data:Incongruent max:35.255, min:15.687
+    data:Incongruent-Congruent max:21.919, min:1.95
     
 
 **3**.	报告关于此数据集的一些描述性统计。包含至少一个集中趋势测量和至少一个变异测量。
@@ -136,12 +158,22 @@ show_max_min(sample_data, 'Incongruent')
 
 **4**. 提供显示样本数据分布的一个或两个可视化。用一两句话说明你从图中观察到的结果。
 
-**答**: 对比两个Congruent和Incongruent条件下的分布图，大部分人在Incongruent条件花的时间较长，而Congruent条件下花的时间较短。
+**答**: 对比两个Congruent和Incongruent条件下的分布图，大部分人在Incongruent条件花的时间较长，而Congruent条件下花的时间较短。通过观察D数据的频率直方图，可知该分布类似正态分布，而且大部分的数据并不是在0附近，也可说明在Incongruent条件花的时间较长。
 
 **5**. 现在，执行统计测试并报告你的结果。你的置信水平和关键统计值是多少？你是否成功拒绝零假设？对试验任务得出一个结论。结果是否与你的期望一致？
 
-**答**：置信水平还算比较高，虽然样本有点少，但是大体上符合正态分布。与我期望的一致，我自己试着做下这样的小测验，发现自己在Incongruent下花的时间较长，我猜测大多数人也是如此。
+**答**：执行单尾检测，选择置信水平alpha为0.05, 在df=23时，t=1.714
+
+Congruent: 均值为X1=14.05，方差为Sd1=3.56
+
+Incongruent: 均值为X2=22.02，方差为Sd2=4.80
+
+Incongruent-Congruent: 均值为Xd=X2-X1=7.97，方差为SD=5.98, t=6.53，查看t-table得知P-value << 0.0005
+
+所以可以拒绝零假设，对立假设成立，不一致文字条件比一致文字条件说出文字墨色名称所花费的时间长。
 
 **6**. 可选：你觉得导致所观察到的效应的原因是什么？你是否能想到会取得类似效应的替代或类似任务？进行一些调查研究将有助于你思考这两个问题！
 
-**答**: 在“一致文字条件”下，颜色和含义的识别没有冲突，甚至可以在颜色不做过多的思考，只需要识别文字即可。在“不一致文字条件”下，颜色和含义的识别是有冲突的，大脑需要化更多的时间识别这样的冲突后找出正确答案。类似任务：参与者在1s内看着数字板口头回答加减乘除法。一致答案是看着2，让参与者口头回答1+1的答案；不一致答案是看着3，口头回答1+1的答案。
+**答**: 在“一致文字条件”下，颜色和含义的识别没有冲突，甚至可以在颜色不做过多的思考，只需要识别文字即可。在“不一致文字条件”下，颜色和含义的识别是有冲突的，大脑需要化更多的时间识别这样的冲突后找出正确答案。
+
+类似任务：参与者从纸条上读出两种条件下的句子，条件分别是字词倒立和非倒立，然后记录所花费的时间。

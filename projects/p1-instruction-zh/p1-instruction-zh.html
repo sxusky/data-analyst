@@ -11758,9 +11758,11 @@ div#notebook {
 <p>自变量：文字与颜色匹配与否的文字条件</p>
 <p>因变量：说出文字墨色名称所花费的时间</p>
 <p><strong>2</strong>. 此任务的适当假设集是什么？你想执行什么类型的统计测试？为你的选择提供正当理由。</p>
-<p>假设每个人都是认真参与该任务，并且对颜色的识别无误；</p>
-<p>我想针对不同年龄段的人做随机统计测试；</p>
-<p>大脑的反应速度跟年龄、IQ有一定的关系。</p>
+<p>零假设 Ho:μ=μ0,<strong>一致文字条件</strong>和<strong>不一致文字条件</strong>说出文字墨色名称所花费的时间<strong>相同</strong>。</p>
+<p>对立假设 H1:μ1≠μ2,<strong>一致文字条件</strong>比<strong>不一致文字条件</strong>说出文字墨色名称所花费的时间<strong>不相同</strong>。</p>
+<p>使用T检验，因为样本含量为24；使用<strong>相依样本</strong>检验，因为是在同一个人的两种不同条件下的样本。
+选择<strong>双尾检验</strong>，以及统计显著性水平alpha0.05，要比较两种情况下，要检查<strong>不一致文字条件</strong>比<strong>一致文字条件</strong>的时间相同还是不相同。</p>
+<p>前提要求: 总体的分布应该是正态分布的；另外，参与者能够正常的识别颜色，而且如实的参与测试。</p>
 <p>现在轮到你自行尝试 Stroop 任务了。前往此链接，其中包含一个基于 Java 的小程序，专门用于执行 Stroop 任务。记录你收到的任务时间（你无需将时间提交到网站）。现在下载此数据集，其中包含一些任务参与者的结果。数据集的每行包含一名参与者的表现，第一个数字代表他们的一致任务结果，第二个数字代表不一致任务结果。</p>
 
 </div>
@@ -11768,10 +11770,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># 导入所有需要的函数</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="c1"># 导入所有需要的函数</span>
 <span class="kn">import</span> <span class="nn">csv</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -11779,7 +11782,6 @@ div#notebook {
 <span class="c1"># visualizations module from babs :)</span>
 <span class="kn">from</span> <span class="nn">visualizations</span> <span class="kn">import</span> <span class="n">show_max_min</span><span class="p">,</span> <span class="n">usage_plot</span> 
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 
 </div>
@@ -11789,7 +11791,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">sample_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;stroopdata.csv&#39;</span><span class="p">)</span>
@@ -11814,6 +11816,7 @@ div#notebook {
       <th></th>
       <th>Congruent</th>
       <th>Incongruent</th>
+      <th>Incongruent-Congruent</th>
     </tr>
   </thead>
   <tbody>
@@ -11821,26 +11824,31 @@ div#notebook {
       <th>0</th>
       <td>8.630</td>
       <td>15.687</td>
+      <td>7.057</td>
     </tr>
     <tr>
       <th>1</th>
       <td>8.987</td>
       <td>17.394</td>
+      <td>8.407</td>
     </tr>
     <tr>
       <th>2</th>
       <td>9.401</td>
       <td>20.762</td>
+      <td>11.361</td>
     </tr>
     <tr>
       <th>3</th>
       <td>9.564</td>
       <td>21.214</td>
+      <td>11.650</td>
     </tr>
     <tr>
       <th>4</th>
       <td>10.639</td>
       <td>20.429</td>
+      <td>9.790</td>
     </tr>
   </tbody>
 </table>
@@ -11855,7 +11863,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">sample_data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
@@ -11873,11 +11881,12 @@ div#notebook {
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 RangeIndex: 24 entries, 0 to 23
-Data columns (total 2 columns):
-Congruent      24 non-null float64
-Incongruent    24 non-null float64
-dtypes: float64(2)
-memory usage: 456.0 bytes
+Data columns (total 3 columns):
+Congruent                24 non-null float64
+Incongruent              24 non-null float64
+Incongruent-Congruent    24 non-null float64
+dtypes: float64(3)
+memory usage: 648.0 bytes
 </pre>
 </div>
 </div>
@@ -11888,7 +11897,7 @@ memory usage: 456.0 bytes
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">usage_plot</span><span class="p">(</span><span class="n">sample_data</span><span class="p">,</span> <span class="s1">&#39;Congruent&#39;</span><span class="p">,</span> <span class="n">boundary</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">bin_width</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
@@ -12062,7 +12071,7 @@ gg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">usage_plot</span><span class="p">(</span><span class="n">sample_data</span><span class="p">,</span> <span class="s1">&#39;Incongruent&#39;</span><span class="p">,</span> <span class="n">boundary</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">bin_width</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
@@ -12230,11 +12239,209 @@ duCSMZYxLpn5G+AQ4Iv1NtoeOLKJtqRSeFcqaZqJiJcBA5l5cUQ8nipkd8xMz8NKPcJwlqaZiNgC
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># D = Incongruent - Congruent</span>
+<span class="n">usage_plot</span><span class="p">(</span><span class="n">sample_data</span><span class="p">,</span> <span class="s1">&#39;Incongruent-Congruent&#39;</span><span class="p">,</span> <span class="n">boundary</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bin_width</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">show_max_min</span><span class="p">(</span><span class="n">sample_data</span><span class="p">,</span> <span class="s1">&#39;Congruent&#39;</span><span class="p">)</span>
 <span class="n">show_max_min</span><span class="p">(</span><span class="n">sample_data</span><span class="p">,</span> <span class="s1">&#39;Incongruent&#39;</span><span class="p">)</span>
+<span class="n">show_max_min</span><span class="p">(</span><span class="n">sample_data</span><span class="p">,</span> <span class="s1">&#39;Incongruent-Congruent&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12249,6 +12456,7 @@ duCSMZYxLpn5G+AQ4Iv1NtoeOLKJtqRSeFcqaZqJiJcBA5l5cUQ8nipkd8xMz8NKPcJwlqaZiNgC
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>data:Congruent max:22.328, min:8.63
 data:Incongruent max:35.255, min:15.687
+data:Incongruent-Congruent max:21.919, min:1.95
 </pre>
 </div>
 </div>
@@ -12274,7 +12482,7 @@ data:Incongruent max:35.255, min:15.687
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>4</strong>. 提供显示样本数据分布的一个或两个可视化。用一两句话说明你从图中观察到的结果。</p>
-<p><strong>答</strong>: 对比两个Congruent和Incongruent条件下的分布图，大部分人在Incongruent条件花的时间较长，而Congruent条件下花的时间较短。</p>
+<p><strong>答</strong>: 对比两个Congruent和Incongruent条件下的分布图，大部分人在Incongruent条件花的时间较长，而Congruent条件下花的时间较短。通过观察D数据的频率直方图，可知该分布类似正态分布，而且大部分的数据并不是在0附近，也可说明在Incongruent条件花的时间较长。</p>
 
 </div>
 </div>
@@ -12285,7 +12493,11 @@ data:Incongruent max:35.255, min:15.687
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>5</strong>. 现在，执行统计测试并报告你的结果。你的置信水平和关键统计值是多少？你是否成功拒绝零假设？对试验任务得出一个结论。结果是否与你的期望一致？</p>
-<p><strong>答</strong>：置信水平还算比较高，虽然样本有点少，但是大体上符合正态分布。与我期望的一致，我自己试着做下这样的小测验，发现自己在Incongruent下花的时间较长，我猜测大多数人也是如此。</p>
+<p><strong>答</strong>：执行单尾检测，选择置信水平alpha为0.05, 在df=23时，t=1.714</p>
+<p>Congruent: 均值为X1=14.05，方差为Sd1=3.56</p>
+<p>Incongruent: 均值为X2=22.02，方差为Sd2=4.80</p>
+<p>Incongruent-Congruent: 均值为Xd=X2-X1=7.97，方差为SD=5.98, t=6.53，查看t-table得知P-value &lt;&lt; 0.0005</p>
+<p>所以可以拒绝零假设，对立假设成立，不一致文字条件比一致文字条件说出文字墨色名称所花费的时间长。</p>
 
 </div>
 </div>
@@ -12296,7 +12508,8 @@ data:Incongruent max:35.255, min:15.687
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>6</strong>. 可选：你觉得导致所观察到的效应的原因是什么？你是否能想到会取得类似效应的替代或类似任务？进行一些调查研究将有助于你思考这两个问题！</p>
-<p><strong>答</strong>: 在“一致文字条件”下，颜色和含义的识别没有冲突，甚至可以在颜色不做过多的思考，只需要识别文字即可。在“不一致文字条件”下，颜色和含义的识别是有冲突的，大脑需要化更多的时间识别这样的冲突后找出正确答案。类似任务：参与者在1s内看着数字板口头回答加减乘除法。一致答案是看着2，让参与者口头回答1+1的答案；不一致答案是看着3，口头回答1+1的答案。</p>
+<p><strong>答</strong>: 在“一致文字条件”下，颜色和含义的识别没有冲突，甚至可以在颜色不做过多的思考，只需要识别文字即可。在“不一致文字条件”下，颜色和含义的识别是有冲突的，大脑需要化更多的时间识别这样的冲突后找出正确答案。</p>
+<p>类似任务：参与者从纸条上读出两种条件下的句子，条件分别是字词倒立和非倒立，然后记录所花费的时间。</p>
 
 </div>
 </div>
