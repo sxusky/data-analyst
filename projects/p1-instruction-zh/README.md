@@ -157,7 +157,10 @@ show_max_min(sample_data, 'Incongruent-Congruent')
 
 **3**.	报告关于此数据集的一些描述性统计。包含至少一个集中趋势测量和至少一个变异测量。
 
-**答**：说出文字墨色名称所花费的时间，Congruent条件下人数最多的是14~16s分组，而Incongruent条件下人数最多的是20~22s；说出文字墨色名称所花费的时间，Congruent条件下是：max:22.328, min:8.63，极差=max-min=13.7；而Incongruent条件下是：max:35.255, min:15.687, 极差=max-min=19.57。
+**答**：
+说出文字墨色名称所花费的时间，Congruent条件下人数最多的是14~16s分组，而Incongruent条件下人数最多的是20~22s；
+说出文字墨色名称所花费的时间，Congruent条件下是：max:22.328, min:8.63，极差=max-min=13.7；
+而Incongruent条件下是：max:35.255, min:15.687, 极差=max-min=19.57。
 
 **4**. 提供显示样本数据分布的一个或两个可视化。用一两句话说明你从图中观察到的结果。
 
