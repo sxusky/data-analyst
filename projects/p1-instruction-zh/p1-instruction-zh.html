@@ -11758,10 +11758,11 @@ div#notebook {
 <p>自变量：文字与颜色匹配与否的文字条件</p>
 <p>因变量：说出文字墨色名称所花费的时间</p>
 <p><strong>2</strong>. 此任务的适当假设集是什么？你想执行什么类型的统计测试？为你的选择提供正当理由。</p>
-<p>零假设 Ho:μ=μ0,<strong>一致文字条件</strong>和<strong>不一致文字条件</strong>说出文字墨色名称所花费的时间<strong>相同</strong>。</p>
-<p>对立假设 H1:μ1≠μ2,<strong>一致文字条件</strong>比<strong>不一致文字条件</strong>说出文字墨色名称所花费的时间<strong>不相同</strong>。</p>
-<p>使用T检验，因为样本含量为24；使用<strong>相依样本</strong>检验，因为是在同一个人的两种不同条件下的样本。
-选择<strong>双尾检验</strong>，以及统计显著性水平alpha0.05，要比较两种情况下，要检查<strong>不一致文字条件</strong>比<strong>一致文字条件</strong>的时间相同还是不相同。</p>
+<p>μ1:<strong>一致文字条件</strong>下所花费的平均时间；μ2:<strong>不一致文字条件</strong>下所花费的平均时间。</p>
+<p>零假设 Ho:μ1=μ2,<strong>一致文字条件</strong>和<strong>不一致文字条件</strong>说出文字墨色名称所花费的时间<strong>相同</strong>。</p>
+<p>对立假设 H1:μ1&lt;μ2,<strong>一致文字条件</strong>比<strong>不一致文字条件</strong>说出文字墨色名称所花费的时间<strong>短</strong>。</p>
+<p>使用T检验，主要是因为参与的项目是连续的相依变量，比较两个条件下因变量平均时间的差异是否明显，而且两种条件下样本的分布也符合正态分布；使用<strong>相依样本</strong>检验，因为是在同一个人的两种不同条件下的样本，对同一个人的两种情况下所花的时间的差值做统计分析。
+选择<strong>单尾检验</strong>，以及统计显著性水平alpha0.05，因为<strong>不一致文字条件</strong>需要做额外的思考，很可能比<strong>一致文字条件</strong>所花的时间长，根据这个趋势所以选择了单尾检验。</p>
 <p>前提要求: 总体的分布应该是正态分布的；另外，参与者能够正常的识别颜色，而且如实的参与测试。</p>
 <p>现在轮到你自行尝试 Stroop 任务了。前往此链接，其中包含一个基于 Java 的小程序，专门用于执行 Stroop 任务。记录你收到的任务时间（你无需将时间提交到网站）。现在下载此数据集，其中包含一些任务参与者的结果。数据集的每行包含一名参与者的表现，第一个数字代表他们的一致任务结果，第二个数字代表不一致任务结果。</p>
 
@@ -12471,7 +12472,7 @@ data:Incongruent-Congruent max:21.919, min:1.95
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>3</strong>.    报告关于此数据集的一些描述性统计。包含至少一个集中趋势测量和至少一个变异测量。</p>
-<p><strong>答</strong>：说出文字墨色名称所花费的时间，Congruent条件下人数最多的是14~16s分组，而Incongruent条件下人数最多的是20~22s；说出文字墨色名称所花费的时间，Congruent条件下是：max:22.328, min:8.63；而Incongruent条件下是：max:35.255, min:15.687。</p>
+<p><strong>答</strong>：说出文字墨色名称所花费的时间，Congruent条件下人数最多的是14~16s分组，而Incongruent条件下人数最多的是20~22s；说出文字墨色名称所花费的时间，Congruent条件下是：max:22.328, min:8.63，极差=max-min=13.7；而Incongruent条件下是：max:35.255, min:15.687, 极差=max-min=19.57。</p>
 
 </div>
 </div>
@@ -12493,10 +12494,10 @@ data:Incongruent-Congruent max:21.919, min:1.95
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>5</strong>. 现在，执行统计测试并报告你的结果。你的置信水平和关键统计值是多少？你是否成功拒绝零假设？对试验任务得出一个结论。结果是否与你的期望一致？</p>
-<p><strong>答</strong>：执行单尾检测，选择置信水平alpha为0.05, 在df=23时，t=1.714</p>
+<p><strong>答</strong>：执行单尾检测，选择置信水平alpha为0.05, 在df=23时，t0临界值=1.714</p>
 <p>Congruent: 均值为X1=14.05，方差为Sd1=3.56</p>
 <p>Incongruent: 均值为X2=22.02，方差为Sd2=4.80</p>
-<p>Incongruent-Congruent: 均值为Xd=X2-X1=7.97，方差为SD=5.98, t=6.53，查看t-table得知P-value &lt;&lt; 0.0005</p>
+<p>Incongruent-Congruent: 均值为Xd=X2-X1=7.96，方差为SD=4.86, t=8.2&gt;t0，查看t-table得知P-value &lt;&lt; 0.0005</p>
 <p>所以可以拒绝零假设，对立假设成立，不一致文字条件比一致文字条件说出文字墨色名称所花费的时间长。</p>
 
 </div>

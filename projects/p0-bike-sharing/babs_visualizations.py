@@ -48,41 +48,6 @@ def filter_data(data, condition):
     data = data[matches].reset_index(drop = True)
     return data
 
-def usage_stats(data, filters = [], verbose = True):
-    """
-    Report number of trips and average trip duration for data points that meet
-    specified filtering criteria.
-    """
-
-    n_data_all = data.shape[0]
-
-    # Apply filters to data
-    for condition in filters:
-        data = filter_data(data, condition)
-
-    # Compute number of data points that met the filter criteria.
-    n_data = data.shape[0]
-
-    # Compute statistics for trip durations.
-    duration_mean = data['duration'].mean()
-    duration_qtiles = data['duration'].quantile([.25, .5, .75]).as_matrix()
-    
-    # Report computed statistics if verbosity is set to True (default).
-    if verbose:
-        if filters:
-            print('There are {:d} data points ({:.2f}%) matching the filter criteria.'.format(n_data, 100. * n_data / n_data_all))
-        else:
-            print('There are {:d} data points in the dataset.'.format(n_data))
-
-        print('The average duration of trips is {:.2f} minutes.'.format(duration_mean))
-        print('The median trip duration is {:.2f} minutes.'.format(duration_qtiles[1]))
-        print('25% of trips are shorter than {:.2f} minutes.'.format(duration_qtiles[0]))
-        print('25% of trips are longer than {:.2f} minutes.'.format(duration_qtiles[2]))
-
-    # Return three-number summary
-    return duration_qtiles
-
-
 def usage_plot(data, key = '', filters = [], **kwargs):
     """
     Plot number of trips, given a feature of interest and any number of filters
