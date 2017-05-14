@@ -2,4 +2,4 @@
 
 data-analyst
 
-*about the theme? Minimal is a Jekyll theme for GitHub Pages.*
+*about the Minimal theme? Minimal is a Jekyll theme for GitHub Pages.*
