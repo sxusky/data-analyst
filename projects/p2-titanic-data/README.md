@@ -119,7 +119,7 @@ titanic_data.head(3)
 
     # 数据集的字段注释
     PassengerId => 乘客ID
-    Survived => 存活(0存活、1死亡)
+    Survived => 存活(1存活、0死亡)
     Pclass => 乘客等级(1/2/3等舱位)
     Name => 乘客姓名
     Sex => 性别
