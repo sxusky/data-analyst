@@ -433,7 +433,6 @@ titanic_data[titanic_data.Survived==1]['Age'].plot.hist(bins=16,title='Survived 
 
 
 通过观察上图，蓝色是全体乘客年龄情况，而橙色是存活乘客年龄情况，两种颜色的柱形图越接近，表明存活率越高。
-以下是计算具体存活的代码：
 
 
 ```python
