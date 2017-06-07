@@ -22,19 +22,6 @@ titanic_data.head(3)
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -204,19 +191,6 @@ titanic_data.describe()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -374,7 +348,7 @@ plt.title('Pie Chart for Pclass of Passengers')
 
 
 
-    <matplotlib.text.Text at 0xa495630>
+    <matplotlib.text.Text at 0xa3dd630>
 
 
 
@@ -394,7 +368,7 @@ plt.title('The number of Passengers survival group by Pclass')
 
 
 
-    <matplotlib.text.Text at 0xa51a550>
+    <matplotlib.text.Text at 0xa365588>
 
 
 
@@ -450,7 +424,7 @@ titanic_data[titanic_data.Survived==1]['Age'].plot.hist(bins=16,title='Survived 
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0xa68cdd8>
+    <matplotlib.axes._subplots.AxesSubplot at 0xa5f4dd8>
 
 
 
@@ -474,7 +448,7 @@ plt.title('Age groups, width={}'.format(age_width))
 
 
 
-    <matplotlib.text.Text at 0xb5294a8>
+    <matplotlib.text.Text at 0xb44b4e0>
 
 
 
@@ -493,7 +467,7 @@ plt.title("the survival rate in Age's group")
 
 
 
-    <matplotlib.text.Text at 0xb9a4c50>
+    <matplotlib.text.Text at 0xb952c50>
 
 
 
@@ -549,7 +523,7 @@ plt.title('Age groups, width={}'.format(age_width))
 
 
 
-    <matplotlib.text.Text at 0xaff3320>
+    <matplotlib.text.Text at 0xaf7f320>
 
 
 
@@ -592,7 +566,7 @@ plt.title("the survival rate in Age's group")
 
 
 
-    <matplotlib.text.Text at 0xbb12c88>
+    <matplotlib.text.Text at 0xba7ac88>
 
 
 
@@ -607,24 +581,60 @@ plt.title("the survival rate in Age's group")
 
 ```python
 # 堂兄弟/妹个数 SibSp 的 分析
-survival_rate('SibSp')
+# 根据堂兄弟/妹个数分组的柱形图
+titanic_data.groupby(['SibSp', 'Survived'])['Survived'].count().unstack().plot(kind = 'bar')
 ```
 
 
-![png](output_39_0.png)
+
+
+    <matplotlib.axes._subplots.AxesSubplot at 0xb9dc860>
+
+
+
+
+![png](output_39_1.png)
 
 
 
 ```python
-# 父母与小孩个数 Parch 的分析
-survival_rate('Parch')
+# 堂兄弟/妹个数分组的存活率
+survival_rate('SibSp')
 ```
 
 
 ![png](output_40_0.png)
 
 
-由图得知，堂兄弟/妹个数为1~2个时生存率较高；父母与小孩个数为3时生存率最高。
+
+```python
+# 父母与小孩个数 Parch 的分析
+# 父母与小孩个数分组的柱形图
+titanic_data.groupby(['Parch', 'Survived'])['Survived'].count().unstack().plot(kind = 'bar')
+```
+
+
+
+
+    <matplotlib.axes._subplots.AxesSubplot at 0xb7e4c88>
+
+
+
+
+![png](output_41_1.png)
+
+
+
+```python
+# 父母与小孩个数分组的存活率
+survival_rate('Parch')
+```
+
+
+![png](output_42_0.png)
+
+
+由图得知，堂兄弟/妹个数为2~8的数据太少，无法判断，可以推测个数为1时生存率较高；父母与小孩个数为3~6的数据太少，无法判断，可以推测个数为1~2时生存率最高。
 
 ### 结论
 泰坦尼克号的事故乘客的存活率比较低为*0.38*。船舱的等级越高，存活的几率越大，反之等级越低存活的可能性越小，这也与实际相符，因为高等级的船舱地理位置、逃生空间较好。乘客中男性的存活率较低为*0.19*，而女性的存活率达到*0.74*，说明逃生时执行了女士优先。0~5岁的乘客生存率较高，很可能是因为他们从登上船到上救生艇，就没有离开过父母的怀抱，在逃生时能够被优先照顾。堂兄弟/妹个数和父母与小孩个数的越少，生存率越高，是否体现为优先逃生，尽可能减少对家庭的破坏呢？这个还暂时无法确定。
