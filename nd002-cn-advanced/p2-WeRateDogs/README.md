@@ -4,4 +4,4 @@
 使用到python的pandas、request、json、matplotlib模块
 
 ### 运行
-    `jupyter notebook`
+jupyter notebook
